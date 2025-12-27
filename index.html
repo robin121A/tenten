@@ -1,0 +1,223 @@
+# tenten
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Her 🌙</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Georgia", serif;
+  background: radial-gradient(circle at top, #1e3d2b, #0b1f14);
+  overflow: hidden;
+}
+
+/* ---------- MOON ---------- */
+.moon {
+  position: absolute;
+  top: 60px;
+  right: 100px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #dfffe8);
+  box-shadow:
+    0 0 30px rgba(220,255,230,0.9),
+    0 0 80px rgba(180,255,200,0.6),
+    0 0 140px rgba(150,255,180,0.3);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ---------- FRAME ---------- */
+.frame-container {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  margin: 8vh auto;
+  border-radius: 30px;
+  box-shadow: 0 0 60px rgba(255,255,255,0.25);
+  z-index: 4;
+}
+
+.frame {
+  background: rgba(240, 255, 220, 0.96);
+  border-radius: 30px;
+  padding: 40px 50px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  opacity: 0;
+  animation: fadeIn 2.5s ease forwards;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+  font-size: 40px;
+  color: #3f6f4a;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #2f4f1f;
+  margin-bottom: 20px;
+}
+
+.signature {
+  text-align: right;
+  font-style: italic;
+  margin-top: 30px;
+}
+
+/* ---------- SPARKLES ---------- */
+.sparkle,
+.bg-sparkle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Frame sparkles */
+.sparkle {
+  background: white;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+/* Background sparkles */
+.bg-sparkle {
+  background: rgba(255,255,255,0.85);
+  filter: blur(0.6px);
+  box-shadow:
+    0 0 6px rgba(255,255,255,0.9),
+    0 0 14px rgba(180,255,200,0.7),
+    0 0 22px rgba(150,255,180,0.4);
+  animation: float linear infinite;
+  z-index: 1;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-160px); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon" id="moon"></div>
+
+<div class="frame-container">
+  <div class="frame">
+    <h1>Hai tenten</h1>
+
+    <p>So erm...ik it’s a bit sudden and kinda odd of mee (who doesn’t know shyt how to code) to do this so yosh i took the help of chatgpt but yeah.</p>
+
+    <p>I just wanted to say that I really am greatful for our friendship and i just wanted to say how much I appreciate being with you...your presence is really beautiful and you do matter to me maybe i couldn’t show you how much but you do.</p>
+
+    <p>And I care about you and yeah I wanted to apologise too like not just sorry a real apology as I’ve hurt you a lot and I am sorry for being such a dumbass sometimes, for missing out the hints the signs, for getting too needy and clingy while you needed space and not handling the moments as well as I should have... But Im trying and learning i so yoshhh that’s all I wanted to say.</p>
+
+    <p>I love you and dw you don’t have to say it back i just wanted you to know that I love you and i do care about you so take your time I’ll be here whenever you feel a bit more at peace or if you wanna share some tea or you wanna rant and bitch about the ppl from your school I’ll be here as your best friend</p>
+
+    <div class="signature">– from your dumb fuck person aka mrimri</div>
+  </div>
+</div>
+
+<script>
+/* ---------- BACKGROUND PARALLAX SPARKLES ---------- */
+const layers = [
+  { count: 40, speed: 0.15, size: [2,4] },
+  { count: 30, speed: 0.3, size: [3,6] },
+  { count: 20, speed: 0.5, size: [4,8] }
+];
+
+layers.forEach(layer => {
+  for (let i = 0; i < layer.count; i++) {
+    const s = document.createElement('div');
+    s.className = 'bg-sparkle';
+
+    const size = Math.random() * (layer.size[1] - layer.size[0]) + layer.size[0];
+    s.style.width = s.style.height = size + 'px';
+    s.style.left = Math.random() * window.innerWidth + 'px';
+    s.style.top = Math.random() * window.innerHeight + 'px';
+
+    s.style.animationDuration = (30 / layer.speed) + 's';
+    s.dataset.speed = layer.speed;
+
+    document.body.appendChild(s);
+  }
+});
+
+/* ---------- PARALLAX FOR SPARKLES + MOON ---------- */
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5);
+  const y = (e.clientY / window.innerHeight - 0.5);
+
+  document.querySelectorAll('.bg-sparkle').forEach(s => {
+    const speed = s.dataset.speed;
+    s.style.transform =
+      `translate(${x * speed * 40}px, ${y * speed * 40}px)`;
+  });
+
+  const moon = document.getElementById('moon');
+  moon.style.transform =
+    `translate(${x * 20}px, ${y * 20}px)`;
+});
+
+/* ---------- FRAME SPARKLES ---------- */
+const frame = document.querySelector('.frame');
+const rect = frame.getBoundingClientRect();
+const sparkles = [];
+
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+
+  switch (side) {
+    case 0:
+      x = rect.left + Math.random() * rect.width;
+      y = rect.top + Math.random() * 20;
+      break;
+    case 1:
+      x = rect.left + Math.random() * rect.width;
+      y = rect.bottom - 20 + Math.random() * 20;
+      break;
+    case 2:
+      x = rect.left + Math.random() * 20;
+      y = rect.top + Math.random() * rect.height;
+      break;
+    case 3:
+      x = rect.right - 20 + Math.random() * 20;
+      y = rect.top + Math.random() * rect.height;
+      break;
+  }
+
+  s.style.left = x + 'px';
+  s.style.top = y + 'px';
+  s.style.width = s.style.height = (Math.random() * 3 + 2) + 'px';
+
+  document.body.appendChild(s);
+  sparkles.push(s);
+}
+
+function twinkle() {
+  sparkles.forEach(s => {
+    s.style.opacity = 0.3 + Math.random() * 0.7;
+  });
+  setTimeout(twinkle, 400);
+}
+twinkle();
+</script>
+
+</body>
+</html>
